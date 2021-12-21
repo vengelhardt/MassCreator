@@ -1,0 +1,25 @@
+{
+    "python.venvFolders": [
+        ".virtualenvs/python3"
+    ],
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=120",
+        "--ignore=E741, W503"
+    ],
+     
+    "python.linting.enabled": true,
+    "python.linting.lintOnSave": true,
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "120"
+    ],
+    "python.venvPath": "~/.virtualenvs/python3",
+    "python.sortImports.args": [
+        "--atomic",
+        "--sl"
+    ],
+    "python.pythonPath": "~/masscreator/bin/python",
+}
