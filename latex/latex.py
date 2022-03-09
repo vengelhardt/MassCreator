@@ -8,7 +8,9 @@ def make_doc(date, zone):
 
     # Premiere lecture
     first_reading = aelf.get_first_reading(date, zone)
-    with doc.create(Section("1ère Lecture: {}".format(first_reading["ref"]), numbering=False)):
+    with doc.create(
+        Section("1ère Lecture: {}".format(first_reading["ref"]), numbering=False)
+    ):
         doc.append(first_reading["contenu"])
 
     # Psaume
@@ -17,7 +19,9 @@ def make_doc(date, zone):
 
     # Deuxieme lecture
     second_reading = aelf.get_second_reading(date, zone)
-    with doc.create(Section("2eme Lecture: {}".format(second_reading["ref"]), numbering=False)):
+    with doc.create(
+        Section("2eme Lecture: {}".format(second_reading["ref"]), numbering=False)
+    ):
         doc.append(second_reading["contenu"])
 
     # Evangile
@@ -25,5 +29,4 @@ def make_doc(date, zone):
     with doc.create(Section("Évangile: {}".format(evangile["ref"]), numbering=False)):
         doc.append(evangile["contenu"])
 
-
-    doc.generate_pdf('full', clean_tex=True)
+    doc.generate_pdf("full", clean_tex=True)
