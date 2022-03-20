@@ -92,6 +92,18 @@ def get_evangile(date, zone):
     return aelf.get_reading("evangile")
 
 
+def get_date(date, zone):
+    aelf = CAELF(date, zone)
+    infos = aelf.get_informations()
+    return infos["informations"]["date"]
+
+
+def get_week(date, zone):
+    aelf = CAELF(date, zone)
+    infos = aelf.get_informations()
+    return infos["informations"]["semaine"]
+
+
 if __name__ == "__main__":
     aelf = CAELF("2021-12-24", "france")
     aelf.get_informations()

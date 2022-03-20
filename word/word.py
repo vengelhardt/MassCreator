@@ -1,12 +1,20 @@
+from tkinter import font
 from docx import Document
+from docx.shared import Pt
+
 import aelf.aelf as aelf
 
 
 def make_word(date, zone):
-    document = Document("/Users/Engelhardt/Documents/Projet/MassbookMaker/demo1.docx")
+    document = Document()
     document.add_heading("Feuille de messe", 0)
 
     # Entête TODO
+    mass_date = aelf.get_date(date, zone)
+    mass_week = aelf.get_week(date, zone)
+    document.add_paragraph(mass_date, style="Intense Quote")
+    document.add_paragraph(mass_week, style="Intense Quote")
+
     # Before TODO
     # Chant d'entrée (Accueuil) TODO
     # Rite pénitentiel (Kyrie) TODO
