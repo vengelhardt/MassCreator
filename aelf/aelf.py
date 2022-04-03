@@ -1,7 +1,8 @@
-import requests
+import datetime
 import json
 import re
-import datetime
+
+import requests
 
 AELF_API_SITE = "https://api.aelf.org"
 AELF_CMD_INFORMATIONS = "/v1/informations/"  # /v1/informations/{date}/{zone}

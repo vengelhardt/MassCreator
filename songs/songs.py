@@ -4,7 +4,7 @@ import string
 
 class CDatabaseAPI:
     def __init__(self):
-        self.connection = sqlite3.connect('song.db')
+        self.connection = sqlite3.connect("song.db")
         self.cursor = self.connection.cursor()
 
     def close(self):
@@ -27,24 +27,26 @@ class CSong:
         self._init_verses()
 
     def _init_refrain(self):
-        sql_refrain_query = "SELECT refrain from song WHERE title GLOB '{}*';".format(self.title)
+        sql_refrain_query = "SELECT refrain from song WHERE title GLOB '{}*';".format(
+            self.title
+        )
         self.database_api.cursor.execute(sql_refrain_query)
         refrain = self.database_api.cursor.fetchall()[0][0]
         return refrain
 
     def _init_verses(self):
         for verse_id in range(self.verses_nb):
-            sql_verse_query = "SELECT couplet{} from song WHERE title GLOB '{}*';".format(verse_id +1, self.title)
+            sql_verse_query = (
+                "SELECT couplet{} from song WHERE title GLOB '{}*';".format(
+                    verse_id + 1, self.title
+                )
+            )
             self.database_api.cursor.execute(sql_verse_query)
             verse = self.database_api.cursor.fetchall()[0][0]
             self.verses.append(verse)
 
     def get_dict(self):
-        return {
-            "title": self.title,
-            "refrain": self.refrain,
-            "verses": self.verses
-        }
+        return {"title": self.title, "refrain": self.refrain, "verses": self.verses}
 
     def display(self):
         print("Titre: {}".format(self.title))

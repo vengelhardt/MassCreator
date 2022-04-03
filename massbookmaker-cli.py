@@ -1,7 +1,6 @@
 import click
 
 import aelf.aelf as aelf
-import latex.latex as latex
 import word.word as word
 
 

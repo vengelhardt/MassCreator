@@ -1,8 +1,6 @@
-from tkinter import font
-from docx import Document
-from docx.shared import Pt
+import re
 
-import aelf.aelf as aelf
+from docx import Document
 
 
 def make_word(date, zone):
@@ -57,9 +55,13 @@ def make_word(date, zone):
     document.add_heading("TIC", level=1)
 
     # Envoi TODO
-
     document.save("demo1.docx")
 
 
 if __name__ == "__main__":
-    make_word()
+    document = Document("template.docx")
+    for para in document.paragraphs:
+        if match := re.match(r"^<.*>", para.text):
+            print(match)
+    print("end")
+    # make_word()
