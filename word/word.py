@@ -3,65 +3,40 @@ import re
 from docx import Document
 
 
-def make_word(date, zone):
-    document = Document()
-    document.add_heading("Feuille de messe", 0)
+class CWord:
+    def __init__(self, template_path):
+        self.template_path = template_path
+        self.file_path = template_path.split('.')[0] + "-filled.docx"
+        self.docx = Document(template_path)
+        self.section_list = self.get_keywords()
 
-    # Entête TODO
-    mass_date = aelf.get_date(date, zone)
-    mass_week = aelf.get_week(date, zone)
-    document.add_paragraph(mass_date, style="Intense Quote")
-    document.add_paragraph(mass_week, style="Intense Quote")
+    def print(self):
+        for section in self.section_list:
+            print(section)
 
-    # Before TODO
-    # Chant d'entrée (Accueuil) TODO
-    # Rite pénitentiel (Kyrie) TODO
+    def get_keywords(self):
+        section_list = []
+        for para in self.docx.paragraphs:
+            match = re.match(r"^<(.*)\.(.*)>", para.text)
+            if match:
+                section_name = match.group(1)
+                section_type = match.group(2)
+                section_list.append({section_name: section_type})
+        return section_list
 
-    # Premiere lecture
-    first_reading = aelf.get_first_reading(date, zone)
-    document.add_heading(f"Premiere Lecture : {first_reading['ref']}", level=1)
-    document.add_paragraph(first_reading["contenu"], style="Intense Quote")
-
-    # Psaume (TODO)
-
-    # Deuxieme lecture
-    second_reading = aelf.get_second_reading(date, zone)
-    document.add_heading(f"Seconde Lecture : {second_reading['ref']}", level=1)
-    document.add_paragraph(second_reading["contenu"], style="Intense Quote")
-
-    # Acclamation de l'Evangile TODO
-
-    # Evangile
-    evangile = aelf.get_evangile(date, zone)
-    document.add_heading(f"Evangile : {evangile['ref']}", level=1)
-    document.add_paragraph(evangile["contenu"], style="Intense Quote")
-
-    # Sanctus TODO
-
-    # Anamnèse
-    document.add_heading("Anamnèse", level=1)
-
-    # Doxologie
-    document.add_heading("Doxologie", level=1)
-
-    # Notre père
-    document.add_heading("Notre Père", level=1)
-
-    # Agnus TODO
-
-    # Communion TODO
-
-    # TIC
-    document.add_heading("TIC", level=1)
-
-    # Envoi TODO
-    document.save("demo1.docx")
+    def find_and_replace(self, item):
+        for key, value in item.items():
+            for para in self.docx.paragraphs:
+                match = re.match(rf"^<{key}>", para.text)
+                if match:
+                    print("Found")
+                    para.text = value
+                    self.docx.save(self.file_path)
+                else:
+                    print(f"Item {key} was not found in the word file.")
 
 
 if __name__ == "__main__":
-    document = Document("template.docx")
-    for para in document.paragraphs:
-        if match := re.match(r"^<.*>", para.text):
-            print(match)
-    print("end")
-    # make_word()
+    word = CWord("template.docx")
+    word.find_and_replace({"sortie.text": "coucou"})
+    word.print()
