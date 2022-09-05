@@ -4,7 +4,7 @@ import string
 
 class CDatabaseAPI:
     def __init__(self):
-        self.connection = sqlite3.connect("song.db")
+        self.connection = sqlite3.connect("songs/song.db")
         self.cursor = self.connection.cursor()
 
     def close(self):
@@ -35,7 +35,7 @@ class CSong:
         return refrain
 
     def _init_verses(self):
-        for verse_id in range(self.verses_nb):
+        for verse_id in range(4):
             sql_verse_query = (
                 "SELECT couplet{} from song WHERE title GLOB '{}*';".format(
                     verse_id + 1, self.title
@@ -43,7 +43,10 @@ class CSong:
             )
             self.database_api.cursor.execute(sql_verse_query)
             verse = self.database_api.cursor.fetchall()[0][0]
-            self.verses.append(verse)
+            if verse and verse_id < self.verses_nb:
+                self.verses.append(verse)
+            else:
+                self.verses.append("")
 
     def get_dict(self):
         return {"title": self.title, "refrain": self.refrain, "verses": self.verses}
@@ -71,5 +74,6 @@ def get_song_dict_from_title(song_title: string, verses_nb: int) -> dict:
 
 if __name__ == "__main__":
     song_list = get_song_list()
+    print(song_list)
     dico = get_song_dict_from_title(song_list[1], 2)
     print(dico)

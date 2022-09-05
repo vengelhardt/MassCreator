@@ -1,5 +1,4 @@
 import datetime
-import json
 import re
 
 import requests
@@ -109,6 +108,5 @@ if __name__ == "__main__":
     aelf = CAELF("2021-12-24", "france")
     aelf.get_informations()
 
-    messe_json = aelf.get_messe()
+    messe_json = get_first_reading("2022-12-18", "france")
     print(messe_json)
-    print(json.dumps(messe_json, indent=4, sort_keys=True))
