@@ -7,7 +7,7 @@ from python_docx_replace.docx_replace import docx_replace
 class CWord:
     def __init__(self, template_path):
         self.template_path = template_path
-        self.file_path = template_path.split('.')[0] + "_filled.docx"
+        self.file_path = template_path.split(".")[0] + "_filled.docx"
         self.docx = Document(template_path)
         self.section_list = self.get_keywords()
 

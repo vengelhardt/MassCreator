@@ -18,13 +18,12 @@ class CDatabaseAPI:
 
 
 class CSong:
-    def __init__(self, database_api, song_title, verses_nb):
+    def __init__(self, database_api, song_title, refrain, verses, verses_nb):
         self.title = song_title
         self.database_api = database_api
         self.verses_nb = verses_nb
-        self.refrain = self._init_refrain()
-        self.verses = []
-        self._init_verses()
+        self.refrain = refrain
+        self.verses = verses
 
     def _init_refrain(self):
         sql_refrain_query = "SELECT refrain from song WHERE title GLOB '{}*';".format(
@@ -48,6 +47,22 @@ class CSong:
             else:
                 self.verses.append("")
 
+    def search_in_database(self):
+        self.refrain = self._init_refrain()
+        self._init_verses()
+
+    def append(self):
+        sql_query = "INSERT INTO song (title, refrain, couplet1, couplet2, couplet3, couplet4) VALUES({}, {}, {}, {}, {}, {});".format(
+            self.title,
+            self.refrain,
+            self.verses[0],
+            self.verses[1],
+            self.verses[2],
+            self.verses[3]
+        )
+        self.database_api.cursor.execute(sql_query)
+        self.database_api.commit()
+
     def get_dict(self):
         return {"title": self.title, "refrain": self.refrain, "verses": self.verses}
 
@@ -58,7 +73,7 @@ class CSong:
             print("Verse {}: {}".format(verse, self.verses[verse]))
 
 
-def get_song_list() -> list:
+def get_song_list():
     database = CDatabaseAPI()
     song_list = database.get_title_list()
     database.close()
@@ -67,13 +82,17 @@ def get_song_list() -> list:
 
 def get_song_dict_from_title(song_title: string, verses_nb: int) -> dict:
     database = CDatabaseAPI()
-    song = CSong(database, song_title, verses_nb)
+    song = CSong(database, song_title, "", [], verses_nb)
+    song.search_in_database()
     database.close()
     return song.get_dict()
 
+def append_song(title: string, refrain: string, verses: list):
+    database = CDatabaseAPI()
+    song = CSong(database, title, refrain, verses, len(verses))
+    song.append()
+    database.close()
+
 
 if __name__ == "__main__":
-    song_list = get_song_list()
-    print(song_list)
-    dico = get_song_dict_from_title(song_list[1], 2)
-    print(dico)
+    append_song("test", "salut", ["hello"])
