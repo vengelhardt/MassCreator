@@ -72,6 +72,10 @@ with tab1:
         doc.find_and_replace(goodnewsTitle=goodNews["intro_lue"])
         doc.find_and_replace(goodnewsText=goodNews["contenu"])
 
+        psalm = aelf.get_psalm(str(massDate), "france")
+        doc.find_and_replace(psalmRefrain=psalm["refrain_psalmique"])
+        doc.find_and_replace(psalmText=psalm["contenu"])
+
         # Date
         date = aelf.get_date(str(massDate), "france")
         week = aelf.get_week(str(massDate), "france")
