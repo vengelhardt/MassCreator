@@ -216,3 +216,4 @@ fabric.properties
 
 # Custom
 src/main/resources/base/tests/
+**/template_filled.docx

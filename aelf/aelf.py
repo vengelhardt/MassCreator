@@ -1,5 +1,4 @@
 import datetime
-import json
 import re
 
 import requests
@@ -78,6 +77,11 @@ class CAELF:
                         return self.cleanup(lecture)
 
 
+def get_psalm(date, zone):
+    aelf = CAELF(date, zone)
+    return aelf.get_reading("psaume")
+
+
 def get_first_reading(date, zone):
     aelf = CAELF(date, zone)
     return aelf.get_reading("lecture_1")
@@ -109,6 +113,5 @@ if __name__ == "__main__":
     aelf = CAELF("2021-12-24", "france")
     aelf.get_informations()
 
-    messe_json = aelf.get_messe()
-    print(messe_json)
-    print(json.dumps(messe_json, indent=4, sort_keys=True))
+    text = get_psalm("2022-12-18", "france")
+    print(text)

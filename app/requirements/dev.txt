@@ -1,5 +1,0 @@
--r defaults.txt
-black
-faker
-flake8
-pytest
