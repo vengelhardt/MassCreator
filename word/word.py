@@ -1,7 +1,7 @@
 import re
 
+import python_docx_replace
 from docx import Document
-from python_docx_replace.docx_replace import docx_replace
 
 
 class CWord:
@@ -11,7 +11,7 @@ class CWord:
         self.docx = Document(template_path)
         self.section_list = self.get_keywords()
 
-    def print(self):
+    def display(self):
         for section in self.section_list:
             print(section)
 
@@ -26,11 +26,15 @@ class CWord:
         return section_list
 
     def find_and_replace(self, **kwargs: str):
-        docx_replace(self.docx, **kwargs)
+        try:
+            python_docx_replace.docx_replace(self.docx, **kwargs)
+            print(f"Replacing")
+        except ValueError:
+            print(f"Unable to find and replace {kwargs}")
         self.docx.save(self.file_path)
 
 
 if __name__ == "__main__":
     word = CWord("word/template.docx")
-    word.find_and_replace({"sortie.text": "coucou"})
-    word.print()
+    word.find_and_replace(beforeText="coucou")
+    word.display()

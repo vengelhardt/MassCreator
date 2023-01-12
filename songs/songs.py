@@ -58,7 +58,7 @@ class CSong:
             self.verses[0],
             self.verses[1],
             self.verses[2],
-            self.verses[3]
+            self.verses[3],
         )
         self.database_api.cursor.execute(sql_query)
         self.database_api.commit()
@@ -86,6 +86,7 @@ def get_song_dict_from_title(song_title: string, verses_nb: int) -> dict:
     song.search_in_database()
     database.close()
     return song.get_dict()
+
 
 def append_song(title: string, refrain: string, verses: list):
     database = CDatabaseAPI()
