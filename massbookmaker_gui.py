@@ -19,6 +19,9 @@ with tab1:
     # Texte Before
     before = st.text_input("Before")
 
+    # Texte PU
+    pu = st.text_input("Prière Universelle")
+
     # Chants
     st.write("🎹 Sélectionner les chants")
     with st.container():
@@ -84,6 +87,9 @@ with tab1:
 
         # Before
         doc.find_and_replace(beforeText=before)
+
+        # PU
+        doc.find_and_replace(puText=pu)
 
         # Songs
         doc.find_and_replace(accueilRefrain=entrySong["refrain"])
