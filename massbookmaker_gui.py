@@ -2,6 +2,7 @@ import streamlit as st
 
 import aelf.aelf as aelf
 import songs.songs as songs
+import ordinaire.ordinaire as ordinaire
 import word.word as word
 
 st.set_page_config(layout="centered", page_icon="📝", page_title="Feuille de Messe")
@@ -21,6 +22,32 @@ with tab1:
 
     # Texte PU
     pu = st.text_input("Prière Universelle")
+
+    # Ordinaire
+    st.write("🗞️ Sélectionner l'ordinaire")
+    with st.container():
+        left, right = st.columns(2)
+        kyrieTitle = left.selectbox("Kyrie", (ordinaire.get_kyrie_list()))
+        kyrieText = ordinaire.get_kyrie_text(kyrieTitle)
+        right.write(kyrieText)
+
+    with st.container():
+        left, right = st.columns(2)
+        sanctusTitle = left.selectbox("Sanctus", (ordinaire.get_sanctus_list()))
+        sanctusText = ordinaire.get_sanctus_text(sanctusTitle)
+        right.write(sanctusText)
+
+    with st.container():
+        left, right = st.columns(2)
+        agnusTitle = left.selectbox("Agnus", (ordinaire.get_agnus_list()))
+        agnusText = ordinaire.get_agnus_text(agnusTitle)
+        right.write(agnusText)
+
+    with st.container():
+        left, right = st.columns(2)
+        gloriaTitle = left.selectbox("Gloria", (ordinaire.get_gloria_list()))
+        gloriaText = ordinaire.get_gloria_text(gloriaTitle)
+        right.write(gloriaText)
 
     # Chants
     st.write("🎹 Sélectionner les chants")
@@ -90,6 +117,12 @@ with tab1:
 
         # PU
         doc.find_and_replace(puText=pu)
+
+        # Ordinaire
+        doc.find_and_replace(kyrieText=kyrieText)
+        doc.find_and_replace(sanctusText=sanctusText)
+        doc.find_and_replace(agnusText=agnusText)
+        doc.find_and_replace(gloriaText=gloriaText)
 
         # Songs
         doc.find_and_replace(accueilRefrain=entrySong["refrain"])
