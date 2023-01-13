@@ -1,17 +1,22 @@
-import sqlite3
 import string
+import mariadb
 
 
 class COrdinaire:
     def __init__(self):
-        self.connection = sqlite3.connect("ordinaire/ordinaire.db")
+        self.connection = mariadb.connect(
+            host="raspberrypi.local",
+            user="root",
+            password="9bB4578631!",
+            database="ordinaire",
+        )
         self.cursor = self.connection.cursor()
 
     def close(self):
         self.connection.close()
 
     def search_in_database(self, title: string, type: string) -> string:
-        sql_query = "SELECT text from {} WHERE title GLOB '{}*';".format(type, title)
+        sql_query = "SELECT text from {} WHERE title = '{}';".format(type, title)
         self.cursor.execute(sql_query)
         return self.cursor.fetchall()[0][0]
 
