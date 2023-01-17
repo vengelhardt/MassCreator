@@ -1,11 +1,12 @@
 import string
+
 import mariadb
 
 
 class COrdinaire:
     def __init__(self):
         self.connection = mariadb.connect(
-            host="raspberrypi.local",
+            host="176.147.153.71",
             user="root",
             password="9bB4578631!",
             database="ordinaire",

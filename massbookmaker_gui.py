@@ -1,8 +1,8 @@
 import streamlit as st
 
 import aelf.aelf as aelf
-import songs.songs as songs
 import ordinaire.ordinaire as ordinaire
+import songs.songs as songs
 import word.word as word
 
 st.set_page_config(layout="centered", page_icon="📝", page_title="Feuille de Messe")
