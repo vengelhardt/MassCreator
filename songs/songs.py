@@ -1,10 +1,16 @@
-import sqlite3
 import string
+
+import mariadb
 
 
 class CDatabaseAPI:
     def __init__(self):
-        self.connection = sqlite3.connect("songs/song.db")
+        self.connection = mariadb.connect(
+            host="176.147.153.71",
+            user="root",
+            password="9bB4578631!",
+            database="ordinaire",
+        )
         self.cursor = self.connection.cursor()
 
     def close(self):
@@ -26,7 +32,7 @@ class CSong:
         self.verses = verses
 
     def _init_refrain(self):
-        sql_refrain_query = "SELECT refrain from song WHERE title GLOB '{}*';".format(
+        sql_refrain_query = "SELECT refrain from song WHERE title LIKE '{}%';".format(
             self.title
         )
         self.database_api.cursor.execute(sql_refrain_query)
@@ -36,7 +42,7 @@ class CSong:
     def _init_verses(self):
         for verse_id in range(4):
             sql_verse_query = (
-                "SELECT couplet{} from song WHERE title GLOB '{}*';".format(
+                "SELECT couplet{} from song WHERE title LIKE '{}%';".format(
                     verse_id + 1, self.title
                 )
             )
