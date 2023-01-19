@@ -19,6 +19,19 @@ class CDatabaseAPI:
         title_list = self.cursor.fetchall()
         return [title[0] for title in title_list]
 
+    def get_song_list(self):
+        song_list = self.get_title_list()
+        return song_list
+
+    def get_song_dict_from_title(self, song_title: string, verses_nb: int) -> dict:
+        song = CSong(self, song_title, "", [], verses_nb)
+        song.search_in_database()
+        return song.get_dict()
+
+    def append_song(self, title: string, refrain: string, verses: list):
+        song = CSong(self, title, refrain, verses, len(verses))
+        song.append()
+
 
 class CSong:
     def __init__(self, database_api, song_title, refrain, verses, verses_nb):
@@ -74,28 +87,6 @@ class CSong:
         print("Refrain: {}".format(self.refrain))
         for verse in range(self.verses_nb):
             print("Verse {}: {}".format(verse, self.verses[verse]))
-
-
-def get_song_list():
-    database = CDatabaseAPI()
-    song_list = database.get_title_list()
-    database.close()
-    return song_list
-
-
-def get_song_dict_from_title(song_title: string, verses_nb: int) -> dict:
-    database = CDatabaseAPI()
-    song = CSong(database, song_title, "", [], verses_nb)
-    song.search_in_database()
-    database.close()
-    return song.get_dict()
-
-
-def append_song(title: string, refrain: string, verses: list):
-    database = CDatabaseAPI()
-    song = CSong(database, title, refrain, verses, len(verses))
-    song.append()
-    database.close()
 
 
 if __name__ == "__main__":
