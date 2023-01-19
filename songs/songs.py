@@ -1,7 +1,6 @@
 import string
 
 import mysql.connector
-
 import streamlit as st
 
 
@@ -41,6 +40,7 @@ class CDatabaseAPI:
         song = CSong(self, title, "", [], 0)
         song.search_in_database()
         song.delete()
+
 
 class CSong:
     def __init__(self, database_api, song_title, refrain, verses, verses_nb):

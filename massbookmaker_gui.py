@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import streamlit as st
 
 import aelf.aelf as aelf
@@ -17,6 +19,8 @@ tab1, tab2, tab3 = st.tabs(["Génération", "Ajout de chants", "Modifier un chan
 with tab1:
     # Date
     massDate = st.date_input("📆 Date de la messe")
+    if massDate.weekday() != 6:
+        st.text_input("⚠️ Séléctionner un dimanche svp.")
 
     # Texte Before
     before = st.text_input("Before")
@@ -181,7 +185,9 @@ with tab2:
             and refrain
             and titre not in songsdb.get_song_list()
         ):
-            songsdb.append_song(titre, refrain, [couplet1, couplet2, couplet3, couplet4])
+            songsdb.append_song(
+                titre, refrain, [couplet1, couplet2, couplet3, couplet4]
+            )
             songsdb.close()
 
 # Third tab : modify
