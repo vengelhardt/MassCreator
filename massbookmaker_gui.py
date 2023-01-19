@@ -19,8 +19,6 @@ tab1, tab2, tab3 = st.tabs(["Génération", "Ajout de chants", "Modifier un chan
 with tab1:
     # Date
     massDate = st.date_input("📆 Date de la messe")
-    if massDate.weekday() != 6:
-        st.text_input("⚠️ Séléctionner un dimanche svp.")
 
     # Texte Before
     before = st.text_input("Before")
@@ -82,6 +80,9 @@ with tab1:
 
     songsdb.close()
 
+    if massDate.weekday() != 6:
+        st.write("⚠️ Séléctionner un dimanche svp.")
+
     # Génération
     generate = st.button(
         "Générer",
@@ -89,7 +90,7 @@ with tab1:
         "Appuyer ici après avoir sélectionné tous le champs.",
         None,
         None,
-        None,
+        disabled=(massDate.weekday() != 6),
     )
     if generate:
         doc = word.CWord("word/template.docx")
@@ -159,7 +160,6 @@ with tab1:
 # Second tab : add song
 with tab2:
     songsdb = songs.CDatabaseAPI()
-    st.write("Coucou")
     titre = st.text_input("Titre")
     refrain = st.text_input("Refrain")
     couplet1 = st.text_input("Couplet 1")
@@ -173,18 +173,11 @@ with tab2:
         "Appuyer ici pour ajouter le chant à la base de donnée.",
         None,
         None,
-        None,
+        disabled=(titre == "" or refrain == ""),
     )
     if ajouter:
         print(songsdb.get_song_list())
-        if (
-            couplet1
-            and couplet2
-            and couplet3
-            and couplet4
-            and refrain
-            and titre not in songsdb.get_song_list()
-        ):
+        if refrain and titre not in songsdb.get_song_list():
             songsdb.append_song(
                 titre, refrain, [couplet1, couplet2, couplet3, couplet4]
             )
@@ -200,14 +193,24 @@ with tab3:
     mod_couplet2 = st.text_input("Nouveau Couplet 2", oldSong["verses"][1])
     mod_couplet3 = st.text_input("Nouveau Couplet 3", oldSong["verses"][2])
     mod_couplet4 = st.text_input("Nouveau Couplet 4", oldSong["verses"][3])
-    modify = st.button(
-        "Modifier",
-        None,
-        "Appuyer ici après avoir sélectionné tous le champs.",
-        None,
-        None,
-        None,
-    )
+    with st.container():
+        left, right = st.columns(2)
+        modify = left.button(
+            "Modifier",
+            None,
+            "Appuyer ici après avoir sélectionné tous le champs.",
+            None,
+            None,
+            None,
+        )
+        delete = right.button(
+            "Supprimer",
+            None,
+            "Appuyer ici pour supprimer le chant sélectionné",
+            None,
+            None,
+            None,
+        )
     if modify:
         songsdb.modify_song(
             songToModify,
@@ -216,14 +219,6 @@ with tab3:
         )
         songsdb.close()
 
-    delete = st.button(
-        "Supprimer",
-        None,
-        "Appuyer ici pour supprimer le chant sélectionné",
-        None,
-        None,
-        None,
-    )
     if delete:
         songsdb.delete_song(songToModify)
         songsdb.close()
