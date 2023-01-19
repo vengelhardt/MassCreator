@@ -22,26 +22,29 @@ pu = st.text_input("Prière Universelle")
 
 # Ordinaire
 st.write("🗞️ Sélectionner l'ordinaire")
+ordinairedb = ordinaire.COrdinaire()
 with st.container():
     left, right = st.columns(2)
-    kyrieTitle = left.selectbox("Kyrie", (ordinaire.get_kyrie_list()))
-    kyrieText = ordinaire.get_kyrie_text(kyrieTitle)
+    kyrieTitle = left.selectbox("Kyrie", (ordinairedb.get_kyrie_list()))
+    kyrieText = ordinairedb.get_kyrie_text(kyrieTitle)
     right.write(kyrieText)
 with st.container():
     left, right = st.columns(2)
-    sanctusTitle = left.selectbox("Sanctus", (ordinaire.get_sanctus_list()))
-    sanctusText = ordinaire.get_sanctus_text(sanctusTitle)
+    sanctusTitle = left.selectbox("Sanctus", (ordinairedb.get_sanctus_list()))
+    sanctusText = ordinairedb.get_sanctus_text(sanctusTitle)
     right.write(sanctusText)
 with st.container():
     left, right = st.columns(2)
-    agnusTitle = left.selectbox("Agnus", (ordinaire.get_agnus_list()))
-    agnusText = ordinaire.get_agnus_text(agnusTitle)
+    agnusTitle = left.selectbox("Agnus", (ordinairedb.get_agnus_list()))
+    agnusText = ordinairedb.get_agnus_text(agnusTitle)
     right.write(agnusText)
 with st.container():
     left, right = st.columns(2)
-    gloriaTitle = left.selectbox("Gloria", (ordinaire.get_gloria_list()))
-    gloriaText = ordinaire.get_gloria_text(gloriaTitle)
+    gloriaTitle = left.selectbox("Gloria", (ordinairedb.get_gloria_list()))
+    gloriaText = ordinairedb.get_gloria_text(gloriaTitle)
     right.write(gloriaText)
+
+ordinairedb.close()
 
 # Chants
 st.write("🎹 Sélectionner les chants")
