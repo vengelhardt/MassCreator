@@ -6,7 +6,6 @@ import streamlit as st
 
 
 class CDatabaseAPI:
-    @st.experimental_singleton
     def __init__(self):
         self.connection = mysql.connector.connect(**st.secrets.songsdb)
         self.cursor = self.connection.cursor()
