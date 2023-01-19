@@ -2,15 +2,12 @@ import string
 
 import mariadb
 
+import streamlit as st
+
 
 class CDatabaseAPI:
     def __init__(self):
-        self.connection = mariadb.connect(
-            host="176.147.153.71",
-            user="root",
-            password="9bB4578631!",
-            database="ordinaire",
-        )
+        self.connection = mariadb.connect(**st.secrets.songsdb)
         self.cursor = self.connection.cursor()
 
     def close(self):
