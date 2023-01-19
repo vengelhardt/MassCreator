@@ -1,13 +1,13 @@
 import string
 
-import mariadb
+import mysql.connector
 
 import streamlit as st
 
 
 class COrdinaire:
     def __init__(self):
-        self.connection = mariadb.connect(**st.secrets.ordinairedb)
+        self.connection = mysql.connector.connect(**st.secrets.ordinairedb)
         self.cursor = self.connection.cursor()
 
     def close(self):
