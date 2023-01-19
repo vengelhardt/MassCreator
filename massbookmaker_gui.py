@@ -17,17 +17,21 @@ tab1, tab2, tab3 = st.tabs(["Génération", "Ajout de chants", "Modifier un chan
 
 # Tab 1 : Generate songbook
 with tab1:
+
+    st.markdown("""## Sélectionner les informations""")
     # Date
     massDate = st.date_input("📆 Date de la messe")
 
     # Texte Before
-    before = st.text_input("Before")
+    before = st.text_area("Before")
 
     # Texte PU
-    pu = st.text_input("Prière Universelle")
+    pu = st.text_area("Prière Universelle")
+
+    st.markdown("""---""") 
 
     # Ordinaire
-    st.write("🗞️ Sélectionner l'ordinaire")
+    st.markdown("""## 🗞️ Sélectionner l'ordinaire""")
     ordinairedb = ordinaire.COrdinaire()
     with st.container():
         left, right = st.columns(2)
@@ -52,8 +56,10 @@ with tab1:
 
     ordinairedb.close()
 
+    st.markdown("""---""") 
+
     # Chants
-    st.write("🎹 Sélectionner les chants")
+    st.markdown("""## 🎹 Sélectionner les chants""")
     songsdb = songs.CDatabaseAPI()
     with st.container():
         left, center, right = st.columns(3)
@@ -161,11 +167,11 @@ with tab1:
 with tab2:
     songsdb = songs.CDatabaseAPI()
     titre = st.text_input("Titre")
-    refrain = st.text_input("Refrain")
-    couplet1 = st.text_input("Couplet 1")
-    couplet2 = st.text_input("Couplet 2")
-    couplet3 = st.text_input("Couplet 3")
-    couplet4 = st.text_input("Couplet 4")
+    refrain = st.text_area("Refrain")
+    couplet1 = st.text_area("Couplet 1")
+    couplet2 = st.text_area("Couplet 2")
+    couplet3 = st.text_area("Couplet 3")
+    couplet4 = st.text_area("Couplet 4")
 
     ajouter = st.button(
         "Ajouter",
@@ -188,11 +194,11 @@ with tab3:
     songsdb = songs.CDatabaseAPI()
     songToModify = st.selectbox("Chant à modifier", (songsdb.get_song_list()))
     oldSong = songsdb.get_song_dict_from_title(songToModify, 4)
-    mod_refrain = st.text_input("Nouveau Refrain", oldSong["refrain"])
-    mod_couplet1 = st.text_input("Nouveau Couplet 1", oldSong["verses"][0])
-    mod_couplet2 = st.text_input("Nouveau Couplet 2", oldSong["verses"][1])
-    mod_couplet3 = st.text_input("Nouveau Couplet 3", oldSong["verses"][2])
-    mod_couplet4 = st.text_input("Nouveau Couplet 4", oldSong["verses"][3])
+    mod_refrain = st.text_area("Nouveau Refrain", oldSong["refrain"])
+    mod_couplet1 = st.text_area("Nouveau Couplet 1", oldSong["verses"][0])
+    mod_couplet2 = st.text_area("Nouveau Couplet 2", oldSong["verses"][1])
+    mod_couplet3 = st.text_area("Nouveau Couplet 3", oldSong["verses"][2])
+    mod_couplet4 = st.text_area("Nouveau Couplet 4", oldSong["verses"][3])
     with st.container():
         left, right = st.columns(2)
         modify = left.button(
