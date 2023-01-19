@@ -48,24 +48,27 @@ ordinairedb.close()
 
 # Chants
 st.write("🎹 Sélectionner les chants")
+songsdb = songs.CDatabaseAPI()
 with st.container():
     left, center, right = st.columns(3)
-    entrySongTitle = left.selectbox("Chant d'entrée", (songs.get_song_list()))
+    entrySongTitle = left.selectbox("Chant d'entrée", (songsdb.get_song_list()))
     entrySongNb = center.slider("Couplet 1", 1, 4, 4)
-    entrySong = songs.get_song_dict_from_title(entrySongTitle, entrySongNb)
+    entrySong = songsdb.get_song_dict_from_title(entrySongTitle, entrySongNb)
     right.write(entrySong["refrain"])
 with st.container():
     left, center, right = st.columns(3)
-    communionSongTitle = left.selectbox("Chant de communion", (songs.get_song_list()))
+    communionSongTitle = left.selectbox("Chant de communion", (songsdb.get_song_list()))
     communionSongNb = center.slider("Couplet 2", 1, 4, 4)
-    communionSong = songs.get_song_dict_from_title(communionSongTitle, communionSongNb)
+    communionSong = songsdb.get_song_dict_from_title(communionSongTitle, communionSongNb)
     right.write(communionSong["refrain"])
 with st.container():
     left, center, right = st.columns(3)
-    sortieSongTitle = left.selectbox("Chant de sortie", (songs.get_song_list()))
+    sortieSongTitle = left.selectbox("Chant de sortie", (songsdb.get_song_list()))
     sortieSongNb = center.slider("Couplet 3", 1, 4, 4)
-    sortieSong = songs.get_song_dict_from_title(sortieSongTitle, sortieSongNb)
+    sortieSong = songsdb.get_song_dict_from_title(sortieSongTitle, sortieSongNb)
     right.write(sortieSong["refrain"])
+
+songsdb.close()
 
 # Génération
 generate = st.button(
