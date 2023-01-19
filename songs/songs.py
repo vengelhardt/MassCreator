@@ -2,6 +2,7 @@ import string
 
 import mysql.connector
 import streamlit as st
+import re
 
 
 class CDatabaseAPI:
@@ -77,21 +78,25 @@ class CSong:
         self._init_verses()
 
     def append(self):
-        sql_query = "INSERT INTO song (title, refrain, couplet1, couplet2, couplet3, couplet4) select '{}', '{}', '{}', '{}', '{}', '{}' where not exists (Select title from song where title = '{}');".format(
-            self.title,
-            self.refrain,
-            self.verses[0],
-            self.verses[1],
-            self.verses[2],
-            self.verses[3],
-            self.title,
-        )
+        title = re.sub("'", "\\'", self.title)
+        refrain = re.sub("'", "\\'", self.refrain)
+        verse_0 = re.sub("'", "\\'", self.verses[0])
+        verse_1 = re.sub("'", "\\'", self.verses[1])
+        verse_2 = re.sub("'", "\\'", self.verses[2])
+        verse_3 = re.sub("'", "\\'", self.verses[3])
+        sql_query = f"INSERT INTO song (title, refrain, couplet1, couplet2, couplet3, couplet4) select '{title}', '{refrain}', '{verse_0}', '{verse_1}', '{verse_2}', '{verse_3}' where not exists (Select title from song where title = '{title}');"
+        print(sql_query)
         self.database_api.cursor.execute(sql_query)
         self.database_api.connection.commit()
 
     def modify(self, refrain, verses):
+        refrain_filt = re.sub("'", "\\'", refrain)
+        verse_0 = re.sub("'", "\\'", verses[0])
+        verse_1 = re.sub("'", "\\'", verses[1])
+        verse_2 = re.sub("'", "\\'", verses[2])
+        verse_3 = re.sub("'", "\\'", verses[3])
         sql_query = "UPDATE song SET refrain = '{}', couplet1 = '{}', couplet2 = '{}', couplet3 = '{}', couplet4 = '{}' WHERE title = '{}'".format(
-            refrain, verses[0], verses[1], verses[2], verses[3], self.title
+            refrain_filt, verse_0, verse_1, verse_2, verse_3, self.title
         )
         self.database_api.cursor.execute(sql_query)
         self.database_api.connection.commit()
