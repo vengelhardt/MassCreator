@@ -6,6 +6,7 @@ import streamlit as st
 
 
 class COrdinaire:
+    @st.experimental_singleton
     def __init__(self):
         self.connection = mysql.connector.connect(**st.secrets.ordinairedb)
         self.cursor = self.connection.cursor()
