@@ -1,8 +1,8 @@
+import re
 import string
 
 import mysql.connector
 import streamlit as st
-import re
 
 
 class CDatabaseAPI:

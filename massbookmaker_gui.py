@@ -28,7 +28,7 @@ with tab1:
     # Texte PU
     pu = st.text_area("Prière Universelle")
 
-    st.markdown("""---""") 
+    st.markdown("""---""")
 
     # Ordinaire
     st.markdown("""## 🗞️ Sélectionner l'ordinaire""")
@@ -56,7 +56,7 @@ with tab1:
 
     ordinairedb.close()
 
-    st.markdown("""---""") 
+    st.markdown("""---""")
 
     # Chants
     st.markdown("""## 🎹 Sélectionner les chants""")
