@@ -13,30 +13,36 @@ class CDatabaseAPI:
     def close(self):
         self.connection.close()
 
+    @st.cache
     def get_title_list(self):
         sql_query = "SELECT title from song ;"
         self.cursor.execute(sql_query)
         title_list = self.cursor.fetchall()
         return [title[0] for title in title_list]
 
+    @st.cache
     def get_song_list(self):
         song_list = self.get_title_list()
         return song_list
 
+    @st.cache
     def get_song_dict_from_title(self, song_title: string, verses_nb: int) -> dict:
         song = CSong(self, song_title, "", [], verses_nb)
         song.search_in_database()
         return song.get_dict()
 
+    @st.cache
     def append_song(self, title: string, refrain: string, verses: list):
         song = CSong(self, title, refrain, verses, len(verses))
         song.append()
 
+    @st.cache
     def modify_song(self, title: string, refrain: string, verses: list):
         song = CSong(self, title, "", [], 0)
         song.search_in_database()
         song.modify(refrain, verses)
 
+    @st.cache
     def delete_song(self, title: string):
         song = CSong(self, title, "", [], 0)
         song.search_in_database()
@@ -51,6 +57,7 @@ class CSong:
         self.refrain = refrain
         self.verses = verses
 
+    @st.cache
     def _init_refrain(self):
         sql_refrain_query = "SELECT refrain from song WHERE title LIKE '{}%';".format(
             self.title
@@ -59,6 +66,7 @@ class CSong:
         refrain = self.database_api.cursor.fetchall()[0][0]
         return refrain
 
+    @st.cache
     def _init_verses(self):
         for verse_id in range(4):
             sql_verse_query = (
@@ -73,10 +81,12 @@ class CSong:
             else:
                 self.verses.append("")
 
+    @st.cache
     def search_in_database(self):
         self.refrain = self._init_refrain()
         self._init_verses()
 
+    @st.cache
     def append(self):
         title = re.sub("'", "\\'", self.title)
         refrain = re.sub("'", "\\'", self.refrain)
@@ -89,6 +99,7 @@ class CSong:
         self.database_api.cursor.execute(sql_query)
         self.database_api.connection.commit()
 
+    @st.cache
     def modify(self, refrain, verses):
         refrain_filt = re.sub("'", "\\'", refrain)
         verse_0 = re.sub("'", "\\'", verses[0])
@@ -101,14 +112,17 @@ class CSong:
         self.database_api.cursor.execute(sql_query)
         self.database_api.connection.commit()
 
+    @st.cache
     def delete(self):
         sql_query = "DELETE FROM song WHERE title = '{}'".format(self.title)
         self.database_api.cursor.execute(sql_query)
         self.database_api.connection.commit()
 
+    @st.cache
     def get_dict(self):
         return {"title": self.title, "refrain": self.refrain, "verses": self.verses}
 
+    @st.cache
     def display(self):
         print("Titre: {}".format(self.title))
         print("Refrain: {}".format(self.refrain))
