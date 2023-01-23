@@ -1,8 +1,8 @@
 import datetime
-import streamlit as st
 import re
 
 import requests
+import streamlit as st
 
 AELF_API_SITE = "https://api.aelf.org"
 AELF_CMD_INFORMATIONS = "/v1/informations/"  # /v1/informations/{date}/{zone}
