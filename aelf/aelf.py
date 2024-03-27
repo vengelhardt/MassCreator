@@ -72,7 +72,7 @@ class CAELF:
     def get_reading(self, lecture_name):
         messe_json = self.get_messe()
         for messe in messe_json["messes"]:
-            if messe["nom"] == "Messe du jour":
+            if "Messe du jour" in messe["nom"]:
                 for lecture in messe["lectures"]:
                     if lecture["type"] == lecture_name:
                         return self.cleanup(lecture)
@@ -117,8 +117,9 @@ def get_week(date, zone):
 
 
 if __name__ == "__main__":
-    aelf = CAELF("2021-12-24", "france")
+    aelf = CAELF("2024-03-31", "france")
     aelf.get_informations()
+    first_reading = get_first_reading("2024-03-31", "france")
 
     text = get_psalm("2022-12-18", "france")
     print(text)
