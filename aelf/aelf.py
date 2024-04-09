@@ -78,38 +78,32 @@ class CAELF:
                         return self.cleanup(lecture)
 
 
-@st.cache
 def get_psalm(date, zone):
     aelf = CAELF(date, zone)
     return aelf.get_reading("psaume")
 
 
-@st.cache
 def get_first_reading(date, zone):
     aelf = CAELF(date, zone)
     return aelf.get_reading("lecture_1")
 
 
-@st.cache
 def get_second_reading(date, zone):
     aelf = CAELF(date, zone)
     return aelf.get_reading("lecture_2")
 
 
-@st.cache
 def get_evangile(date, zone):
     aelf = CAELF(date, zone)
     return aelf.get_reading("evangile")
 
 
-@st.cache
 def get_date(date, zone):
     aelf = CAELF(date, zone)
     infos = aelf.get_informations()
     return infos["informations"]["date"]
 
 
-@st.cache
 def get_week(date, zone):
     aelf = CAELF(date, zone)
     infos = aelf.get_informations()
